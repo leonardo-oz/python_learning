@@ -21,11 +21,19 @@ def validate_name():
 
 
 def validate_score():
-  "input a score and validate with a regular expression"
-  pass
+  score=-1
+  "input a score between 0 to 99 and validate with a regular expression"
+  score_str = input("What is your score:").strip()
+  if matches := re.search(r"^(\d|\d\d)$",score_str):
+    score= int(score_str)
+  # end if
+  return score
+# end method
+  
 
 if __name__ == "__main__":
-  validate_name()
+  # validate_name()
+  print(f"your score is: {validate_score()}")
   print("end of program")
 
 
