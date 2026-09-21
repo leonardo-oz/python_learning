@@ -20,7 +20,11 @@ def validate_name():
   return
 
 
+def validate_score():
+  pass
+
 if __name__ == "__main__":
   validate_name()
   print("end of program")
+
 
