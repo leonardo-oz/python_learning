@@ -19,7 +19,14 @@ def validate_name():
     print(f"Hello, {matches.group(1)},{matches.group(2)}")
   return
 
-
+def validate_gender():
+  gender=input("what is your gender: ")
+  if matches := re.search(r"^(f|m|female|male)$",gender,re.IGNORECASE):
+    return matches.group(1)
+  else:
+    return None
+  # end if
+# end method
 def validate_score():
   score=-1
   "input a score between 0 to 99 and validate with a regular expression"
@@ -33,7 +40,12 @@ def validate_score():
 
 if __name__ == "__main__":
   # validate_name()
-  print(f"your score is: {validate_score()}")
+  gender=validate_gender()
+  if gender:
+    print(f"your gender is: {gender}")
+  else: # None case
+    print("gender is not available")
+  # end if
   print("end of program")
 
 
