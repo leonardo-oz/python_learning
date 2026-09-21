@@ -21,8 +21,7 @@ def validate_name():
 
 
 def validate_score():
-  score = int(input("what is your score: ").strip())
-  
+  "input a score and validate with a regular expression"
   pass
 
 if __name__ == "__main__":
