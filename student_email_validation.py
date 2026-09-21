@@ -21,6 +21,8 @@ def validate_name():
 
 
 def validate_score():
+  score = int(input("what is your score: ").strip())
+  
   pass
 
 if __name__ == "__main__":
