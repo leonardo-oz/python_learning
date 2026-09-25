@@ -3,6 +3,9 @@ class Coin:
     self.x=x
     self.y=y
     self.size=size
+
+  def __str__(self):
+    return f"size:{self.size},y position:{self.y},x position:{self.x}"
 # End class
 
 
@@ -14,6 +17,8 @@ def create_2_coins():
 
 if __name__ == "__main__":
   c1,c2 = create_2_coins()
-  print(f"c1's size:{c1.size},y position:{c1.y},x position:{c1.x}")
-  print(f"c2's size:{c2.size},y position:{c2.y},x position:{c2.x}")
+  # print(f"c1's size:{c1.size},y position:{c1.y},x position:{c1.x}")
+  # print(f"c2's size:{c2.size},y position:{c2.y},x position:{c2.x}")
+  print(c1)
+  print(c2)
 
