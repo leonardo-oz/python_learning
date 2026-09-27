@@ -1,11 +1,17 @@
 class Coin:
 
+  number_of_coins_created = 0
+
 
   def __init__(self,x,y,size):
     self.x=x
     self.y=y
     self.size=size
+    Coin.number_of_coins_created += 1
 
+  @classmethod
+  def count_created_coins(cls):
+    return cls.number_of_coins_created
 
 
   def __str__(self):
@@ -48,17 +54,23 @@ class Coin:
   def update_pos(self,new_x,new_y):
     self.x=new_x
     self.y=new_y
+
+
+  @classmethod
+  def create_a_coin(cls):
+    x = int(input("give initial x postion of a coin: "))
+    y = int(input("give initial y position of a coin: "))
+    size = int(input("give initial size of the coin: "))
+    return cls(x,y,size)
 # End class
 
 
-def create_2_coins():
-  coin1 = Coin(0,50,10)
-  coin2 = Coin(45,25,5)
-  return coin1, coin2
+
 
 
 if __name__ == "__main__":
-  c1,c2 = create_2_coins()
+  c1 = Coin.create_a_coin()
+  c2 = Coin.create_a_coin()
   # print(f"c1's size:{c1.size},y position:{c1.y},x position:{c1.x}")
   # print(f"c2's size:{c2.size},y position:{c2.y},x position:{c2.x}")
   print(c1)
@@ -73,4 +85,10 @@ if __name__ == "__main__":
   c2.x = 20
   print(c2)
 
+  print(type(c1))
 
+  print(f"how many coins have created so far: {Coin.count_created_coins()}")
+
+  # c3 = Coin.create_a_coin()
+
+  # print(f"how many coins have created so far: {Coin.count_created_coins()}")
