@@ -62,6 +62,18 @@ class Coin:
     y = int(input("give initial y position of a coin: "))
     size = int(input("give initial size of the coin: "))
     return cls(x,y,size)
+
+  def __sub__(self, other):
+    x=abs(self.x-other.x)
+    y=abs(self.y-other.y)
+    size=abs(self.size-other.size)
+    return Coin(x,y,size)
+  def __add__(self, other):
+    x=self.x+other.x
+    y=self.y+other.y
+    size=self.size+other.size
+    return Coin(x,y,size)
+  
 # End class
 
 
@@ -86,6 +98,13 @@ if __name__ == "__main__":
   print(c2)
 
   print(type(c1))
+
+  added_c=c1+c2
+  print(f"addition c{added_c}")
+  subtracted_c = c1-c2
+  print(f"subtracted c{subtracted_c}")
+
+
 
   print(f"how many coins have created so far: {Coin.count_created_coins()}")
 
