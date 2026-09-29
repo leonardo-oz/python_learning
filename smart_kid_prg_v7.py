@@ -1,10 +1,36 @@
 class Student:
 
   def __init__(self,name,math,IQ):
-    self.name = name
-    self.math = math
-    self.IQ = IQ
+    self._name = name
+    self._math = math
+    self._IQ = IQ
     pass
+
+  @property
+  def name(self):
+    return self._name
+
+
+  @name.setter
+  def name(self,name):
+    self._name=name
+
+  @property
+  def math(self):
+    return self._math
+
+  @math.setter
+  def math(self,math):
+    self._math=math
+
+  @property
+  def IQ(self):
+    return self._IQ
+
+  @IQ.setter
+  def IQ(self,IQ):
+    self._IQ=IQ
+  
 
     
   def compute(self):
@@ -15,7 +41,8 @@ class Student:
     return f"{self.name},{self.math},{self.IQ},{self.compute()}"
 
 
-class StudentDBMgr:
+class StudentDBMgr: 
+  MAX_RECORDS = 10
   def __init__(self,database_file):
     if database_file is None:
       self.records = []
@@ -44,7 +71,10 @@ class StudentDBMgr:
   # end display method
 
   def add_a_record(self):
-    
+    MAX_RECOREDS_REACHED_ERROR_MSG = "too many student records"
+    if len(self.records) >= self.MAX_RECORDS:
+      raise ValueError(MAX_RECOREDS_REACHED_ERROR_MSG)
+    # end if 
     record=input("please enter your name, math score and IQ, press Q to end: ")
     while record != "Q":
       words=record.strip().split()
@@ -54,6 +84,8 @@ class StudentDBMgr:
       new_student = Student(name,math,IQ)
 
       self.records.append(new_student)    
+      if len(self.records) >= self.MAX_RECORDS:
+        raise ValueError(MAX_RECOREDS_REACHED_ERROR_MSG)
 
       record=input("please enter your name, math score and IQ: \n")
     # end while
@@ -80,6 +112,8 @@ class StudentDBMgr:
       for record in sorted(self.records,key=lambda student: len(student.name),reverse=not ascending):
         print(record)
       # end for loop
+    else:
+      self.display(self.records)
     # end if
   # end method display_by_order
 
@@ -201,17 +235,19 @@ press 3 find best student\npress 4 to end\npress 5 to find record by name\npress
   while choice!= "4":
     if choice== "1":
       print("==== Start Adding Records ============")
-      db_mgr.add_a_record()
+      try:
+        db_mgr.add_a_record()
+      except ValueError  as e:
+        print(f"caught error {e}")
+        db_mgr.write_all()
     elif choice == "2":
       order_by_dic = {1:"name", 2:"math_score",3:"IQ",4:"name_length"}
       order_by_choice=int(input("Do you want to order by\n1.name\n2.math_score\n3.IQ\n4.name_length "))
       order_by = order_by_dic.get(order_by_choice,"name")
       ascending_str=input("??ascending Y or N??  ")
       ascending=(ascending_str=="Y")
-      print("==== Start Displaying Records ============")
-      # student_records = load(database_file)
       db_mgr.load()
-      # display(student_records)
+      print(f"==== Start Displaying {len(db_mgr.records)} Records ============")
       db_mgr.display_by_order(order_by,ascending)
     elif choice =="3":
       print("==== Start Finding Best Student============")
