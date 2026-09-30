@@ -274,6 +274,9 @@ press 3 find best student\npress 4 to end\npress 5 to find record by name\npress
       math_score= input(f"please enter the new score for the {name} ")
       print("========updating record==============")
       db_mgr.update_mark(name,math_score)
+    elif choice == "9":
+      # create a pie chart of marks distribution
+      pass
     else:
       print(" wrong choice choose to type between 1-8")
     # end if 
