@@ -39,8 +39,8 @@ class Student:
 
   @IQ.setter
   def IQ(self,IQ: int):
-    if self._IQ < 0:
-      raise ValueError("IQ score must be > 0")
+    if self._IQ < 0 or self._IQ > 300:
+      raise ValueError("IQ score must be between 0 and 300")
     self._IQ=IQ
   
 
