@@ -1,53 +1,62 @@
+import argparse
+
+parser=argparse.ArgumentParser(description="A program that allows you to create a database on students")
+parser.add_argument("-F",default="output/records.txt",help="File that contains all the info on what you did.")
+args=parser.parse_args()
+
+
+
 class Student:
 
-  def __init__(self,name,math,IQ):
+  def __init__(self,name: str, math: int, IQ: int) -> None:
     self._name = name
     self._math = math
     self._IQ = IQ
-    pass
+
 
   @property
-  def name(self):
+  def name(self) -> str:
     return self._name
 
 
   @name.setter
-  def name(self,name):
+  def name(self,name: str):
     self._name=name
 
   @property
-  def math(self):
+  def math(self) -> int:
     return self._math
 
   @math.setter
-  def math(self,math):
+  def math(self,math: int):
     self._math=math
 
   @property
-  def IQ(self):
+  def IQ(self) -> int:
     return self._IQ
 
   @IQ.setter
-  def IQ(self,IQ):
+  def IQ(self,IQ: int):
     self._IQ=IQ
   
 
     
-  def compute(self):
+  def compute(self) -> float:
     return self.math*0.3 + self.IQ*0.7
   # end method compute
 
-  def __str__(self):
+  def __str__(self) -> str:
     return f"{self.name},{self.math},{self.IQ},{self.compute()}"
 
 
 class StudentDBMgr: 
-  MAX_RECORDS = 10
-  def __init__(self,database_file):
+  MAX_RECORDS: int = 10
+  def __init__(self,database_file:str) -> None:
+    """Constructor of StudentDBMgr Class """
     if database_file is None:
-      self.records = []
+      self.records: list = []
     else:
-      self.database_file=database_file
+      self.database_file: str =database_file
       self.load()
     
   
@@ -57,13 +66,13 @@ class StudentDBMgr:
   def load(self):
     self.records = []
     with open(self.database_file, "r") as reader:
-      line=reader.readline()
+      line: str=reader.readline()
       while len(line) != 0:
       
-        letters= line.strip().split(',')
-        name= letters[0].title()
-        math= int(letters[1])
-        IQ= int(letters[2])
+        letters: str= line.strip().split(',')
+        name: str= letters[0].title()
+        math: int= int(letters[1])
+        IQ: int= int(letters[2])
         self.records.append(Student(name,math,IQ))
         line=reader.readline()
       # end while
@@ -71,17 +80,17 @@ class StudentDBMgr:
   # end display method
 
   def add_a_record(self):
-    MAX_RECOREDS_REACHED_ERROR_MSG = "too many student records"
+    MAX_RECOREDS_REACHED_ERROR_MSG: str = "too many student records"
     if len(self.records) >= self.MAX_RECORDS:
       raise ValueError(MAX_RECOREDS_REACHED_ERROR_MSG)
     # end if 
-    record=input("please enter your name, math score and IQ, press Q to end: ")
+    record: str=input("please enter your name, math score and IQ, press Q to end: ")
     while record != "Q":
       words=record.strip().split()
       name= words[0]
       math= int(words[1])
       IQ= int(words[2])
-      new_student = Student(name,math,IQ)
+      new_student: object = Student(name,math,IQ)
 
       self.records.append(new_student)    
       if len(self.records) >= self.MAX_RECORDS:
@@ -117,20 +126,20 @@ class StudentDBMgr:
     # end if
   # end method display_by_order
 
-  def display(self,gt_records):
+  def display(self,gt_records:list):
   
     for s in gt_records:
       print(s)
     return 
   # end display method
   
-  def find_highest_score(self):
+  def find_highest_score(self) -> str:
     # initialize
-    max_num=0
+    max_num: int=0
     best_student = None
     for i in range(len(self.records)):
-      s = self.records[i]
-      final_score_i=s.compute()
+      s: str = self.records[i]
+      final_score_i: int=s.compute()
       if final_score_i > max_num:
         # print(final_score_i)
         max_num =final_score_i
@@ -140,12 +149,12 @@ class StudentDBMgr:
     return best_student
   # method highest score
 
-  def find(self, names_qry):
+  def find(self, names_qry: str) -> int:
     found_record = None
-    pos_i=-1
+    pos_i: int=-1
     for i in range(len(self.records)):
       record= self.records[i]
-      name=record.name
+      name: str=record.name
       if name.lower()== names_qry.lower():
         found_record = record
         pos_i=i
@@ -161,7 +170,7 @@ class StudentDBMgr:
   # end method 
 
   def find_longest_name(self):
-    l_name= ""
+    l_name: str= ""
     longest_record=None
     for i in range(len(self.records)):
       rrecord= self.records[i]
@@ -179,11 +188,11 @@ class StudentDBMgr:
       print("no records")
   # end method find_longest_name
 
-  def qry_gt(self, score):
-    qualifies= []
+  def qry_gt(self, score:int) -> list:
+    qualifies: list= []
     for i in range(len(self.records)):
-      record=self.records[i]
-      s=record.compute()
+      record: str=self.records[i]
+      s: int=record.compute()
       result=s
       if result > score:
         qualifies.append(record)
@@ -193,7 +202,7 @@ class StudentDBMgr:
   # end method quarry
 
 
-  def update_mark(self,s_name, math_score):
+  def update_mark(self,s_name: str, math_score: int):
     self.load()
     pos_i=self.find(s_name)
     if pos_i !=-1:
@@ -205,7 +214,7 @@ class StudentDBMgr:
   # end method update mark
 
   
-  def write(self,student):
+  def write(self,student: str ):
     with open(self.database_file,"a") as writer:
       writer.write(f"{student.name}, {student.math}, {student.IQ}\n")
 
@@ -224,8 +233,8 @@ class StudentDBMgr:
 
 
 def main():
-  database_file="output/records.txt"
-
+  # database_file="output/records.txt"
+  database_file = args.F
   menu_str = "\n\n\n>>>>smart kid program<<<< \npress 1 Add records \npress 2 Display records \n\
 press 3 find best student\npress 4 to end\npress 5 to find record by name\npress 6 to find longest name\npress 7 to find records has score > input score:\npress 8 to update a persons math score"
 
@@ -241,11 +250,11 @@ press 3 find best student\npress 4 to end\npress 5 to find record by name\npress
         print(f"caught error {e}")
         db_mgr.write_all()
     elif choice == "2":
-      order_by_dic = {1:"name", 2:"math_score",3:"IQ",4:"name_length"}
-      order_by_choice=int(input("Do you want to order by\n1.name\n2.math_score\n3.IQ\n4.name_length "))
+      order_by_dic: dict = {1:"name", 2:"math_score",3:"IQ",4:"name_length"}
+      order_by_choice: int=int(input("Do you want to order by\n1.name\n2.math_score\n3.IQ\n4.name_length "))
       order_by = order_by_dic.get(order_by_choice,"name")
-      ascending_str=input("??ascending Y or N??  ")
-      ascending=(ascending_str=="Y")
+      ascending_str: str=input("??ascending Y or N??  ")
+      ascending: bool=(ascending_str=="Y")
       db_mgr.load()
       print(f"==== Start Displaying {len(db_mgr.records)} Records ============")
       db_mgr.display_by_order(order_by,ascending)
