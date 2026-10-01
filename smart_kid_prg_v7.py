@@ -29,6 +29,8 @@ class Student:
 
   @math.setter
   def math(self,math: int):
+    if self._math < 0 or self._math > 100:
+      raise ValueError("math score must be between 0 and 100")
     self._math=math
 
   @property
@@ -37,6 +39,8 @@ class Student:
 
   @IQ.setter
   def IQ(self,IQ: int):
+    if self._IQ < 0 or self._IQ > 300:
+      raise ValueError("IQ score must be between 0 and 300")
     self._IQ=IQ
   
 
