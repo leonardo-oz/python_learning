@@ -32,7 +32,7 @@ class Student:
     self._math=math
 
   @property
-  def IQ(self) -> int:
+  def IQ(self) -> int: 
     return self._IQ
 
   @IQ.setter
