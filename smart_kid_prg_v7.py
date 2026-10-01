@@ -88,7 +88,7 @@ class StudentDBMgr:
     if len(self.records) >= self.MAX_RECORDS:
       raise ValueError(MAX_RECOREDS_REACHED_ERROR_MSG)
     # end if 
-    record: str=input("please enter your name, math score and IQ, press Q to end: ")
+    record: str=input("please enter your name, math score and IQ, press Q to end: \n ")
     while record != "Q":
       words=record.strip().split()
       name= words[0]
