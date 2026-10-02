@@ -153,25 +153,24 @@ class StudentDBMgr:
     return best_student
   # method highest score
 
-  def find(self, names_qry: str) -> int:
-    found_record = None
-    pos_i: int=-1
-    for i in range(len(self.records)):
-      record= self.records[i]
-      name: str=record.name
-      if name.lower()== names_qry.lower():
-        found_record = record
-        pos_i=i
-        break
-      # end if
-    # end for i 
-    if found_record != None:
-      print(f"{record} is found")
+
+
+  def compare_name(self,s,name_qry):
+    return s.name.lower()== name_qry.lower()
+  # end method compare_name 
+  
+
+  def find_by_name(self,name_qry):
+    qn=list(filter(lambda s: self.compare_name(s,name_qry),self.records))
+    if qn:
+      return qn
     else:
-      print("name not found")
-    # ennd if
-    return pos_i
-  # end method 
+      return []
+    # end if 
+  # end method find_by_name
+
+
+
 
   def find_longest_name(self):
     l_name: str= ""
@@ -193,16 +192,7 @@ class StudentDBMgr:
   # end method find_longest_name
 
   def qry_gt(self, score:int) -> list:
-    qualifies: list= []
-    for i in range(len(self.records)):
-      record: str=self.records[i]
-      s: int=record.compute()
-      result=s
-      if result > score:
-        qualifies.append(record)
-      # end if else
-    # end for i
-    return qualifies
+   return [s for s in self.records if s.compute() > score]
   # end method quarry
 
 
@@ -270,8 +260,13 @@ press 3 find best student\npress 4 to end\npress 5 to find record by name\npress
     elif choice== "5":
       print("====starting to find student=========")
       db_mgr.load()
-      names_qry= input("please insert a name: ")
-      db_mgr.find(names_qry )
+      name_qry= input("please insert a name: ")
+      qs = db_mgr.find_by_name(name_qry)
+      if qs:
+        print(f"{name_qry} is found")
+        db_mgr.display(qs)
+      else:
+        print(f"{name_qry} NOT found")
     elif choice=="6":
       print("=======finding longest name==========")
       db_mgr.load()
